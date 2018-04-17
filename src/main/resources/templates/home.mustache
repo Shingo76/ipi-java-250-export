@@ -5,7 +5,8 @@
 <body>
 
     <hr/>
-    <h1>Clients <a href="/clients/csv">csv</a>-<a>xlsx</a>-<a>json</a>-<a>xml</a>-<a>pdf</a></h1>
+    <h1>Clients <a href="/clients/csv">csv</a>-<a href="/clients/xlxs">xlsx</a>-<a>json</a>-<a>xml</a>-
+    <a href="/listeClientsPDF/PDF">pdf</a></h1>
     <hr/>
 
     {{>clients}}
@@ -17,7 +18,7 @@
 
     {{#factures}}
 
-        <h2>Facture numéro {{id}} de {{client.nom}} {{client.prenom}} <a href="/factures/{{id}}/pdf">pdf</a></h2>
+        <h2>Facture de {{client.nom}} {{client.prenom}} <a href="/factures/{{id}}/pdf">pdf</a></h2>
         {{>factures}}
     {{/factures}}
 </body>

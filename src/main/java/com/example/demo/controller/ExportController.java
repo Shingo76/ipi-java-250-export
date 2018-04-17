@@ -1,13 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ClientDTO;
-import com.example.demo.dto.FactureDTO;
 import com.example.demo.service.ClientService;
-import com.example.demo.service.FactureService;
 import com.example.demo.service.export.ExportCSVService;
 import com.example.demo.service.export.ExportPDFITextService;
-import com.example.demo.service.export.ExportXLSXService;
+import com.example.demo.service.export.ExportPDFListeClientsService;
+import com.example.demo.service.export.ExportXLXSFacturesClientService;
+import com.example.demo.service.export.ExportXLXSService;
 import com.itextpdf.text.DocumentException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Controlleur pour réaliser les exports
- */
 @Controller
 @RequestMapping("/")
 public class ExportController {
@@ -31,16 +29,19 @@ public class ExportController {
 
     @Autowired
     private ExportCSVService exportCSVService;
-
+    
     @Autowired
-    private FactureService factureService;
-
+    private ExportXLXSService exportXLXSService;
+    
     @Autowired
-    private ExportXLSXService exportXLSXService;
+    ExportXLXSFacturesClientService exportXLXSFacturesClientService;
 
     @Autowired
     private ExportPDFITextService exportPDFITextService;
 
+    @Autowired
+    private ExportPDFListeClientsService exportPDFListeClientsService;
+    
     @GetMapping("/clients/csv")
     public void clientsCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/csv");
@@ -48,29 +49,37 @@ public class ExportController {
         List<ClientDTO> clients = clientService.findAllClients();
         exportCSVService.export(response.getWriter(), clients);
     }
-
-    @GetMapping("/clients/xlsx")
-    public void clientsXLSX(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=\"clients.xlsx\"");
+    
+    @GetMapping("/clients/xlxs")
+    public void clientsXLXS(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/xlxs");
+        response.setHeader("Content-Disposition", "attachment; filename=\"clients.xlxs\"");
         List<ClientDTO> clients = clientService.findAllClients();
-        exportXLSXService.export(response.getOutputStream(), clients);
+        exportXLXSService.export(response.getOutputStream(), clients);
     }
-
-    @GetMapping("/clients/{id}/factures/xlsx")
-    public void facturesDUnClient(@PathVariable("id") Long clientId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=\"factures client " + clientId + ".xlsx\"");
-        // TODO
+    
+    
+    @GetMapping("/facturesClient/{id}/xlxs")
+    public void facturesClientXLXS(@PathVariable("id") Long id,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/xlxs");
+        response.setHeader("Content-Disposition", "attachment; filename=\"facturesClient.xlxs\"");
+        exportXLXSFacturesClientService.export(response.getOutputStream(), id);
     }
-
+    
+    
+    @GetMapping("/listeClientsPDF/PDF")
+    public void listeClientPDF(HttpServletRequest request, HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=\"listeClients.pdf\"");
+        exportPDFListeClientsService.export(response.getOutputStream());
+    }
+  
 
     @GetMapping("/factures/{id}/pdf")
-    public void facturePDF(@PathVariable("id") Long factureId, HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException {
+    public void facturePDF(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException {
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=\"facture " + factureId + ".pdf\"");
-        FactureDTO facture = factureService.findById(factureId);
-        exportPDFITextService.export(response.getOutputStream(), facture);
+        response.setHeader("Content-Disposition", "attachment; filename=\"factures " + id + ".pdf\"");   
+        exportPDFITextService.export(response.getOutputStream(), id);
     }
 
 }

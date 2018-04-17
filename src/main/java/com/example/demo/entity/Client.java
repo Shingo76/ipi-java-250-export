@@ -18,7 +18,40 @@ public class Client {
     @Column
     private String nom;
 
-    public Long getId() {
+    @Column
+    private String sexe;
+    
+    @Column
+    private Long age;
+    
+    @Column
+    private String adresse;
+    
+    public String getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+	public Long getAge() {
+		return age;
+	}
+
+	public void setAge(Long age) {
+		this.age = age;
+	}
+
+	public String getSexe() {
+		return sexe;
+	}
+
+	public void setSexe(String sexe) {
+		this.sexe = sexe;
+	}
+
+	public Long getId() {
         return id;
     }
 
