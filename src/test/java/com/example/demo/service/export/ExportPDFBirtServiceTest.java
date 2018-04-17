@@ -1,13 +1,5 @@
 package com.example.demo.service.export;
 
-import com.example.demo.dto.FactureDTO;
-import com.itextpdf.text.DocumentException;
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class ExportPDFBirtServiceTest {
 

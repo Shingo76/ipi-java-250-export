@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +33,11 @@ public class ExportXLXSFacturesClientService {
 	public void export(OutputStream OutputStream, Long idClient) throws IOException {
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
-
+		XSSFFont defaultFont = workbook.createFont();
+		defaultFont.setBold(true);
+		defaultFont.setItalic(true);
+		
+		
 		List<Facture> listeFactures = factureRepository.findAll();
 		List<Facture> listeFacturesClient = new ArrayList<Facture>();
 
@@ -48,6 +56,7 @@ public class ExportXLXSFacturesClientService {
 			Row entete = sheet.createRow(0);
 
 			Cell celluleEntete = entete.createCell(colNum++);
+			celluleEntete.getCellStyle().setFont(defaultFont);
 			celluleEntete.setCellValue("Article");
 
 			Cell celluleEntete2 = entete.createCell(colNum++);
@@ -119,5 +128,5 @@ public class ExportXLXSFacturesClientService {
 
 		workbook.close();
 	}
-
+		
 }

@@ -21,7 +21,7 @@ public class InitData {
 
 		Client alex = new Client();
 		alex.setNom("PETRILLO");
-		alex.setPrenom("Alex;andre");
+		alex.setPrenom("Alexandre");
 		alex.setSexe("H");
 		alex.setAge(32L);
 		alex.setAdresse("13 rue de lu marechal Leclerc");

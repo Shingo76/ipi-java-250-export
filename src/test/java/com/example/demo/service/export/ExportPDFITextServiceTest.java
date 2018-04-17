@@ -1,13 +1,5 @@
 package com.example.demo.service.export;
 
-import com.example.demo.dto.ClientDTO;
-import com.example.demo.dto.FactureDTO;
-import com.example.demo.dto.LigneFactureDTO;
-import com.itextpdf.text.DocumentException;
-import org.junit.Test;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class ExportPDFITextServiceTest {
 
